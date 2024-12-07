@@ -14,3 +14,18 @@ resource "google_sql_database_instance" "main" {
     }
   }
 }
+
+resource "google_sql_user" "kenken" {
+  project = var.project_id
+
+  name     = "kenken"
+  instance = google_sql_database_instance.main.name
+  password = "password_kenken"
+}
+
+resource "google_sql_database" "maindb" {
+  project = var.project_id
+
+  name     = "maindb"
+  instance = google_sql_database_instance.main.name
+}
