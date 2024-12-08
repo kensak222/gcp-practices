@@ -24,7 +24,7 @@ spec:
             - name: MM_SQLSETTINGS_DRIVERNAME
               value: "postgres"
             - name: MM_SQLSETTINGS_DATASOURCE
-              value: "postgres://mattermost:your-password@<CLOUD_SQL_IP>:5432/mattermost?sslmode=disable"
+              value: "postgres://mattermost:your-password@23.251.152.72:5432/mattermost?sslmode=disable"
             - name: MM_SERVICESETTINGS_SITEURL
               value: "https://kenken-ms.com"
           volumeMounts:
