@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mattermost
+  namespace: mattermost
+  labels:
+    app: mattermost
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mattermost
+  template:
+    metadata:
+      labels:
+        app: mattermost
+    spec:
+      containers:
+        - name: mattermost
+          image: mattermost/mattermost-team-edition:latest
+          ports:
+            - containerPort: 8065
+          env:
+            - name: MM_SQLSETTINGS_DRIVERNAME
+              value: "postgres"
+            - name: MM_SQLSETTINGS_DATASOURCE
+              value: "postgres://mattermost:your-password@<CLOUD_SQL_IP>:5432/mattermost?sslmode=disable"
+            - name: MM_SERVICESETTINGS_SITEURL
+              value: "https://kenken-ms.com"
+          volumeMounts:
+            - name: mattermost-data
+              mountPath: /mattermost/data
+      volumes:
+        - name: mattermost-data
+          emptyDir: {}
