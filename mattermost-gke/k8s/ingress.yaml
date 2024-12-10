@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mattermost-ingress
+  namespace: mattermost
+  annotations:
+    kubernetes.io/ingress.class: gce
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cloud.google.com/backend-config: '{"default": "mattermost-backend-config"}'
+spec:
+  rules:
+  - host: kenken-ms.com
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: mattermost-service
+            port:
+              number: 80
