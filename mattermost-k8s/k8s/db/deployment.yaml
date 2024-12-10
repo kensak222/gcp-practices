@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mattermost-db
+  namespace: mattermost
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mattermost-db
+  template:
+    metadata:
+      labels:
+        app: mattermost-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:13
+        env:
+        - name: POSTGRES_USER
+          value: mattermost
+        - name: POSTGRES_PASSWORD
+          value: securepassword
+        ports:
+        - containerPort: 5432
