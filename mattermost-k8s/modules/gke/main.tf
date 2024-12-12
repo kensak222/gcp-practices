@@ -8,4 +8,9 @@ resource "google_container_cluster" "primary" {
     machine_type = "e2-medium"
     disk_size_gb = 20
   }
+
+  release_channel {
+    # 安定版の機能リリースを使用
+    channel = "REGULAR"
+  }
 }
