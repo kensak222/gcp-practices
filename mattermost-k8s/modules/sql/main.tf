@@ -11,5 +11,5 @@ resource "google_sql_database_instance" "mattermost" {
 resource "google_sql_user" "users" {
   name     = "mattermost"
   instance = google_sql_database_instance.mattermost.name
-  password = "securepassword"
+  password = var.sql_user_password
 }
