@@ -1,0 +1,24 @@
+// Diagram elements
+Users [icon: users]
+ddoDNS [icon: gcp-cloud-dns]
+
+GCP Architecture [icon: gcp-cloud] {
+  cloudVPC [icon: gcp-vpc] {
+  Application Hosting [icon: gcp-kubernetes-engine] {
+    Mattermost（GKE） App [icon: gcp-kubernetes-engine, label: "Mattermost"]
+    Nginx [icon: gcp-compute-engine, label: "Nginx"]
+  }
+
+  Data Storage [icon: gcp-storage] {
+    Cloud SQL [icon: gcp-sql, label: "PostgreSQL"]
+    Cloud Storage [icon: gcp-storage, label: "Storage"]
+  }
+  }
+}
+
+// Connections
+Users > ddoDNS: kenken.ddo.jpを名前解決
+Users > Nginx: httpsアクセス
+Nginx > Mattermost（GKE） App: ルーティング
+Mattermost（GKE） App > Cloud SQL: DB操作
+Mattermost（GKE） App > Cloud Storage: ファイル管理
