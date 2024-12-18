@@ -29,5 +29,16 @@ spec:
             secretKeyRef:
               name: mattermost-db-secret
               key: MM_SQLSETTINGS_DATASOURCE
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mattermost-db-secret
+              key: POSTGRES_PASSWORD
+        - name: MM_SERVICESETTINGS_SITEURL
+          value: "https://kenken.ddo.jp"
+        - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
+          value: "false"
+        - name: MM_LOGSETTINGS_CONSOLELEVEL
+          value: "DEBUG"
         ports:
         - containerPort: 8065

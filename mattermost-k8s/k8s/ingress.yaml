@@ -3,10 +3,19 @@ kind: Ingress
 metadata:
   name: mattermost-ingress
   namespace: mattermost
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - kenken.ddo.jp
+    secretName: mattermost-tls
   rules:
-  - http:
+  - host: kenken.ddo.jp
+    http:
       paths:
       - path: /
         pathType: Prefix
