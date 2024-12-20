@@ -8,3 +8,8 @@ variable "region" {
   type        = string
   default     = "us-central1"
 }
+
+variable "gke_service_account" {
+  description = "gkeサービスアカウント"
+  type        = string
+}

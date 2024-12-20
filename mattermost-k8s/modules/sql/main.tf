@@ -1,3 +1,4 @@
+### mattermost-k8s/modules/sql/main.tf
 resource "google_sql_database_instance" "mattermost" {
   name             = "mattermost-db"
   region           = var.region

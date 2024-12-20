@@ -3,22 +3,31 @@ Users [icon: users]
 ddoDNS [icon: gcp-cloud-dns]
 
 GCP Architecture [icon: gcp-cloud] {
-  cloudVPC [icon: gcp-vpc] {
-  Application Hosting [icon: gcp-kubernetes-engine] {
-    Mattermost（GKE） App [icon: gcp-kubernetes-engine, label: "Mattermost"]
-    Nginx [icon: gcp-compute-engine, label: "Nginx"]
-  }
+  cloudVPC [icon: gcp-vpc, label: "mattermost-vpc"] {
+    
+    Nginx [icon: gcp-compute-engine, label: "Ingress (Nginx)"]
 
-  Data Storage [icon: gcp-storage] {
-    Cloud SQL [icon: gcp-sql, label: "PostgreSQL"]
-    Cloud Storage [icon: gcp-storage, label: "Storage"]
-  }
+    VPCPeering [icon: gcp-vpc-peering, label: "VPC Peering"]
+
+    Applicationサブネット [icon: gcp-kubernetes-engine] {
+      MattermostApp [icon: gcp-kubernetes-engine, label: "Mattermost"]
+
+      CloudStorage [icon: gcp-storage, label: "Cloud Storage"]
+
+      CloudNAT [icon: gcp-cloud-nat, label: "Cloud NAT"]
+    }
+    
+    DBサブネット [icon: gcp-storage] {
+      CloudSQL [icon: gcp-sql, label: "Cloud SQL (PostgreSQL)"]
+    }
   }
 }
 
 // Connections
 Users > ddoDNS: kenken.ddo.jpを名前解決
 Users > Nginx: httpsアクセス
-Nginx > Mattermost（GKE） App: ルーティング
-Mattermost（GKE） App > Cloud SQL: DB操作
-Mattermost（GKE） App > Cloud Storage: ファイル管理
+Nginx > MattermostApp: ルーティング
+MattermostApp > VPCPeering: DB操作(VPC Peering経由)
+VPCPeering > CloudSQL: Cloud SQLとの接続
+MattermostApp > CloudStorage: ファイル管理
+MattermostApp > CloudNAT: インターネットアクセス（プライベートクラスタでは、Nodeに外部IPがないため、コンテナイメージのプルに問題が出ると判断）

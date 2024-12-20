@@ -1,3 +1,10 @@
+### mattermost-k8s/modules/gke/secrets.tf
+resource "kubernetes_namespace" "mattermost" {
+  metadata {
+    name = "mattermost"
+  }
+}
+
 resource "kubernetes_secret" "mattermost_db_secret" {
   metadata {
     name      = "mattermost-db-secret"

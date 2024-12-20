@@ -12,3 +12,8 @@ variable "sql_user_password" {
   description = "Cloud SQL Password"
   default     = "string"
 }
+
+variable "gke_service_account" {
+  description = "GKE Service Account"
+  type        = string
+}
