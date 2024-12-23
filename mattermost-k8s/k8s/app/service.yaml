@@ -1,0 +1,13 @@
+### mattermost-k8s/k8s/app/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mattermost-app
+  namespace: mattermost
+spec:
+  ports:
+    - port: 8065
+      targetPort: 8065
+      protocol: TCP
+  selector:
+    app: mattermost-app

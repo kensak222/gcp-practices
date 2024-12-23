@@ -1,0 +1,45 @@
+### mattermost-k8s/k8s/app/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mattermost-app
+  namespace: mattermost
+  labels:
+    app: mattermost-app
+    tier: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mattermost-app
+  template:
+    metadata:
+      labels:
+        app: mattermost-app
+    spec:
+      containers:
+      - name: mattermost-app
+        image: mattermost/mattermost-team-edition:8.1.9
+        env:
+        - name: MM_USERNAME
+          value: "admin"
+        - name: MM_PASSWORD
+          value: "admin"
+        - name: MM_SQLSETTINGS_DATASOURCE
+          valueFrom:
+            secretKeyRef:
+              name: mattermost-db-secret
+              key: MM_SQLSETTINGS_DATASOURCE
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mattermost-db-secret
+              key: POSTGRES_PASSWORD
+        - name: MM_SERVICESETTINGS_SITEURL
+          value: "https://kenken-mattermost.com"
+        - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
+          value: "false"
+        - name: MM_LOGSETTINGS_CONSOLELEVEL
+          value: "DEBUG"
+        ports:
+        - containerPort: 8065
