@@ -1,6 +1,6 @@
 provider "google" {
-  project = "mattermost-kenken-k8s"
-  region  = "us-central1"
+  project = var.project_id
+  region  = var.region
 }
 
 provider "kubernetes" {

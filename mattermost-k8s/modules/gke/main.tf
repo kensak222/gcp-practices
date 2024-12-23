@@ -21,6 +21,23 @@ resource "google_container_cluster" "primary" {
     master_ipv4_cidr_block  = "172.16.0.0/28"
   }
 
+  # 勉強用にマスター認可ネットワークを簡便に設定しているが、本来はきちんと設定する
+  # 例えば別VPC上で管理用の安いGCEを建てて、そこからのアクセスのみ許可するとか
+  master_authorized_networks_config {
+    # 自宅やネットワーク環境によっては、IPアドレスが変更される可能性があるため、
+    # curl ifconfig.me で都度確認して設定する
+    cidr_blocks {
+      cidr_block   = "125.103.161.163/32" # 必要に応じて範囲を制限
+      display_name = "allow-all" # 説明を適切に変更
+    }
+
+    # 複数のIPを許可する場合、以下のように設定する
+    # cidr_blocks {
+    #   cidr_block   = "198.51.100.10/32" # 追加するIP
+    #   display_name = "Additional-IP"
+    # }
+  }
+
   ip_allocation_policy {
     cluster_secondary_range_name  = "pods"
     services_secondary_range_name = "services"

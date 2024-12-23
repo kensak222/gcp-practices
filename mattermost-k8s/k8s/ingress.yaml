@@ -1,3 +1,4 @@
+### mattermost-k8s/k8s/ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11,10 +12,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - kenken.ddo.jp
+    - kenken-mattermost.com
     secretName: mattermost-tls
   rules:
-  - host: kenken.ddo.jp
+  - host: kenken-mattermost.com
     http:
       paths:
       - path: /

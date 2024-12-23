@@ -1,6 +1,5 @@
 // Diagram elements
 Users [icon: users]
-ddoDNS [icon: gcp-cloud-dns]
 
 GCP Architecture [icon: gcp-cloud] {
   cloudVPC [icon: gcp-vpc, label: "mattermost-vpc"] {
@@ -23,11 +22,18 @@ GCP Architecture [icon: gcp-cloud] {
   }
 }
 
+Cloudflare(Free) [icon: cloudflare] {
+  DDoS保護 [icon: gcp-cloud-armor]
+  CDN [icon: gcp-cloud-cdn]
+  DNSリゾルバー [icon: gcp-cloud-dns]
+  SSL証明書 [icon: gcp-cloud-load-balancing]
+}
+
 // Connections
-Users > ddoDNS: kenken.ddo.jpを名前解決
-Users > Nginx: httpsアクセス
+Users > Cloudflare(Free): kenken-mattermost.comでアクセス
+Cloudflare(Free) > Nginx: httpsアクセス
 Nginx > MattermostApp: ルーティング
 MattermostApp > VPCPeering: DB操作(VPC Peering経由)
 VPCPeering > CloudSQL: Cloud SQLとの接続
 MattermostApp > CloudStorage: ファイル管理
-MattermostApp > CloudNAT: インターネットアクセス（プライベートクラスタでは、Nodeに外部IPがないため、コンテナイメージのプルに問題が出ると判断）
+MattermostApp > CloudNAT: インターネットアクセス（コンテナイメージのプル用）

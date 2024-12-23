@@ -1,3 +1,4 @@
+### mattermost-k8s/k8s/db/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
