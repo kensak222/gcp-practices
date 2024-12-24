@@ -2,6 +2,10 @@
 Users [icon: users]
 
 GCP Architecture [icon: gcp-cloud] {
+  Logging [icon: gcp-cloud-logging]
+  Monitoring [icon: gcp-cloud-monitoring]
+  CloudIAM [icon: gcp-iam]
+
   cloudVPC [icon: gcp-vpc, label: "mattermost-vpc"] {
     
     Nginx [icon: gcp-compute-engine, label: "Ingress (Nginx)"]
@@ -26,7 +30,9 @@ Cloudflare(Free) [icon: cloudflare] {
   DDoS保護 [icon: gcp-cloud-armor]
   CDN [icon: gcp-cloud-cdn]
   DNSリゾルバー [icon: gcp-cloud-dns]
-  SSL証明書 [icon: gcp-cloud-load-balancing]
+  SSL(strict) [icon: gcp-cloud-load-balancing]
+  WAF [icon: gcp-cloud-firewall-rules]
+  WebSecurity [icon: gcp-apigee-api-platform]
 }
 
 // Connections
