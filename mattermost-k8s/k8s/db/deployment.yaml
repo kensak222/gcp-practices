@@ -5,10 +5,10 @@ metadata:
   name: mattermost-db
   namespace: mattermost
 spec:
-  replicas: 1
+  replicas: 1  # データベースのインスタンス数。1つのインスタンスのみ稼働。
   selector:
     matchLabels:
-      app: mattermost-db
+      app: mattermost-db # Podを識別するためのラベル
   template:
     metadata:
       labels:
@@ -23,7 +23,7 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mattermost-db-secret
+              name: mattermost-db-secret # パスワードをKubernetes Secretから取得
               key: POSTGRES_PASSWORD
         ports:
-        - containerPort: 5432
+        - containerPort: 5432            # PostgreSQLがリッスンするデフォルトポート

@@ -1,3 +1,4 @@
+### others/deploy_resources.sh
 #!/bin/bash
 set -e
 

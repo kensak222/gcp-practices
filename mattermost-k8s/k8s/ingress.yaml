@@ -1,27 +1,29 @@
 ### mattermost-k8s/k8s/ingress.yaml
+# HTTPおよびHTTPSルートをクラスタ外部に公開するためのオブジェクト
+# ドメインベースのルーティング、TLS終端（SSL/TLS証明書の管理）をサポート
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mattermost-ingress
   namespace: mattermost
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Let's Encryptで証明書を発行するためのクラスター全体のIssuer
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true" # HTTPSへのリダイレクトを強制
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP" # バックエンドとの通信プロトコルをHTTPに設定
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx  # Nginx Ingress Controllerを使用
   tls:
   - hosts:
-    - kenken-mattermost.com
-    secretName: mattermost-tls
+    - kenken-mattermost.com # HTTPSでアクセス可能なドメイン名
+    secretName: mattermost-tls # このドメインに使用するTLS証明書を保存するKubernetes Secret
   rules:
   - host: kenken-mattermost.com
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /                  # ルートパスに対するリクエスト
+        pathType: Prefix         # サブパスを含むリクエストにもマッチ
         backend:
           service:
-            name: mattermost-app
+            name: mattermost-app # バックエンドサービス名
             port:
-              number: 8065
+              number: 8065       # Mattermostアプリのサービスがリッスンするポート

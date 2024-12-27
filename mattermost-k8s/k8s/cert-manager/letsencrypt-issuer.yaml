@@ -5,11 +5,11 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory # Let's EncryptのACME APIエンドポイント
     email: karbii774@gmail.com
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: letsencrypt-prod # ACMEチャレンジの秘密鍵を保存するSecretの名前
     solvers:
     - http01:
         ingress:
-          class: nginx
+          class: nginx # Nginx Ingress Controllerを使用してHTTP-01チャレンジを処理

@@ -1,4 +1,5 @@
 ### mattermost-k8s/k8s/app/deployment.yaml
+# Podのデプロイと管理を行うコントローラー、レプリカ数やローリングアップデートの設定を管理
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,12 +7,12 @@ metadata:
   namespace: mattermost
   labels:
     app: mattermost-app
-    tier: app
+    tier: app # アプリケーション層のリソースであることを示す
 spec:
-  replicas: 1
+  replicas: 1 # Mattermostアプリのインスタンス数（スケールアップは負荷に応じて検討）
   selector:
     matchLabels:
-      app: mattermost-app
+      app: mattermost-app # 対象Podを識別するためのラベル
   template:
     metadata:
       labels:
@@ -22,24 +23,15 @@ spec:
         image: mattermost/mattermost-team-edition:8.1.9
         env:
         - name: MM_USERNAME
-          value: "admin"
+          value: "admin" # 初期管理者ユーザー名（セキュリティ上後で変更が必要、MM_SQLSETTINGS_DATASOURCEのところで、できることは検証済みなので優先度低）
         - name: MM_PASSWORD
-          value: "admin"
+          value: "admin" # 初期管理者パスワード（セキュリティ上後で変更が必要）
         - name: MM_SQLSETTINGS_DATASOURCE
           valueFrom:
             secretKeyRef:
-              name: mattermost-db-secret
+              name: mattermost-db-secret # データベース接続情報をSecretから取得
               key: MM_SQLSETTINGS_DATASOURCE
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mattermost-db-secret
-              key: POSTGRES_PASSWORD
         - name: MM_SERVICESETTINGS_SITEURL
-          value: "https://kenken-mattermost.com"
-        - name: MM_PLUGINSETTINGS_ENABLEUPLOADS
-          value: "false"
-        - name: MM_LOGSETTINGS_CONSOLELEVEL
-          value: "DEBUG"
+          value: "https://kenken-mattermost.com" # Mattermostの外部URL（Ingress設定と一致させる）
         ports:
-        - containerPort: 8065
+        - containerPort: 8065 # Mattermostアプリがリッスンするポート
