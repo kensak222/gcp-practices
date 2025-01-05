@@ -11,11 +11,6 @@ variable "sql_user_password" {
   type        = string
 }
 
-variable "gke_service_account" {
-  description = "gkeサービスアカウント"
-  type        = string
-}
-
 variable "network_id" {
   description = "The ID of the VPC network"
   type        = string
