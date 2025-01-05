@@ -7,7 +7,7 @@ GCPの練習用のリポジトリ
 
 <summary>クリックして詳細を確認してください。</summary>
 
-# Mattermost サービスのインフラ構築と管理 (日本語版)
+## Mattermost サービスのインフラ構築と管理
 
 このプロジェクトは、GCP 上で Mattermost サービスを Kubernetes を使用してホストし、Cloudflare を利用した DDoS 保護および SSL/TLS 暗号化を提供するためのインフラストラクチャコードを含んでいます。
 
@@ -21,6 +21,7 @@ GCPの練習用のリポジトリ
 - **Google Kubernetes Engine (GKE):** Mattermost アプリケーションをデプロイ。
 - **Cloud SQL:** Mattermost 用の PostgreSQL データベースをホスト。
 - **Cloud Storage:** ファイルストレージ用。
+- **Cloud Logging , Cloud Monitoring:** 監視とログ管理の導入による、問題の早期発見とトラブルシューティングの効率化。
 - **Cloudflare:** DNS、CDN、DDoS 保護、SSL/TLS 暗号化を管理。
 - **Terraform:** インフラ構築のコード管理。
 
@@ -74,7 +75,7 @@ chmod +x mattermost-k8s/others/*.sh
     - mattermost-k8s/others/setup_ingress.sh
   - Cert-Managerのデプロイ
     - mattermost-k8s/others/setup_cert_manager.sh
-  - Mattermost Namespaceと関連リソースの作成
+  - Mattermost Namespaceと関連リソースの作成（setup_ingressの有効化に少し時間がかかるのでお茶でも飲んで待つ）
     - mattermost-k8s/others/deploy_resources.sh
   - 状態確認
     - mattermost-k8s/others/check_status.sh

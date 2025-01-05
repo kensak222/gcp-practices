@@ -6,11 +6,11 @@ metadata:
   namespace: mattermost
   labels:
     app: mattermost
-    tier: db
+    tier: db # サービスがデータベースの役割を持つことを示すラベル
 spec:
   ports:
-  - port: 5432
-    targetPort: 5432
-    protocol: TCP
+  - port: 5432           # クラスター内の他のリソースが接続に使用するポート
+    targetPort: 5432     # バックエンドPodがリッスンするポート
+    protocol: TCP        # データベース接続に使用するプロトコル
   selector:
-    app: mattermost-db
+    app: mattermost-db   # このラベルを持つPodにトラフィックをルーティング

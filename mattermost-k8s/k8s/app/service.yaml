@@ -1,4 +1,6 @@
 ### mattermost-k8s/k8s/app/service.yaml
+# クラスタ内のPodに対する永続的なネットワークアクセスを提供
+# Podは動的に作成・削除されるため、Serviceがその抽象化レイヤーとして機能
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,8 +8,8 @@ metadata:
   namespace: mattermost
 spec:
   ports:
-    - port: 8065
-      targetPort: 8065
-      protocol: TCP
+    - port: 8065          # クラスター内の他のリソースが接続に使用するポート
+      targetPort: 8065    # バックエンドPodがリッスンするポート
+      protocol: TCP       # 接続プロトコル
   selector:
-    app: mattermost-app
+    app: mattermost-app   # このラベルを持つPodにトラフィックをルーティング
