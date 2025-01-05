@@ -1,0 +1,15 @@
+### k8s/monitoring/grafana-values.yaml
+podSecurityPolicy:
+  enabled: false
+
+rbac:
+  psps:
+    enabled: false
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - "grafana.${project_id}.com"
+adminPassword: "admin-password"

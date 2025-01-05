@@ -1,0 +1,41 @@
+### mattermost-k8s/k8s/logging/fluentd.yaml.template
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd                              # DaemonSet名
+  namespace: logging                         # ネームスペース（事前に作成）
+spec:
+  selector:
+    matchLabels:
+      name: fluentd                          # DaemonSetのラベル
+  template:
+    metadata:
+      labels:
+        name: fluentd                        # Podのラベル
+    spec:
+      containers:
+      - name: fluentd                        # コンテナ名
+        image: fluent/fluentd-kubernetes-daemonset:v1.14-debian-cloudwatch # 使用するFluentdイメージ
+        env:
+        - name: GOOGLE_PROJECT_ID
+          value: "${google_project_id}"      # Terraformから渡される変数
+        - name: GOOGLE_CREDENTIALS           # 環境変数: サービスアカウントキー
+          valueFrom:
+            secretKeyRef:                    # Kubernetes Secretから取得
+              name: gcp-credentials          # Secret名
+              key: service-account.json      # Secretのキー
+        volumeMounts:
+        - name: config-volume                # Fluentd設定ファイルのマウント
+          mountPath: /fluentd/etc            # Fluentdの設定パス
+          subPath: fluent.conf               # 特定の設定ファイルのみをマウント
+        resources:                           # リソース制限
+          limits:
+            memory: "200Mi"                  # メモリ上限
+            cpu: "200m"                      # CPU上限
+          requests:
+            memory: "100Mi"                  # メモリリクエスト
+            cpu: "100m"                      # CPUリクエスト
+      volumes:
+      - name: config-volume
+        configMap:
+          name: fluentd-config

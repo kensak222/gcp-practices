@@ -17,3 +17,13 @@ variable "gke_service_account" {
   description = "GKE Service Account"
   type        = string
 }
+
+variable "logging_service_account_key_path" {
+  description = "Cloud Logging Service Account Key Path"
+  type        = string
+}
+
+variable "gke_service_account_key_path" {
+  description = "GKE Service Account Key Path"
+  type        = string
+}

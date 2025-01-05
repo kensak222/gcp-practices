@@ -35,3 +35,5 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+mattermost-k8s/others/mattermost-kenken-k8s-74494f5ec04f.json
+mattermost-k8s/others/mattermost-kenken-k8s-3328a7bdd850.json

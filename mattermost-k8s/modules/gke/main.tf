@@ -14,6 +14,50 @@ resource "google_container_cluster" "primary" {
   network    = var.network_id
   subnetwork = var.mattermost_subnet_id
 
+  # Stackdriver LoggingとMonitoringを有効化
+  logging_service   = "logging.googleapis.com/kubernetes" # ログ送信先
+  monitoring_service = "monitoring.googleapis.com/kubernetes" # 監視データ送信先
+
+  # クラスタの監視機能（Stackdriver Monitoring）を有効化
+  # クラスタ全体のログやメトリクスをStackdriverに送信するため有効化
+  monitoring_config {
+    enable_components = [
+      "SYSTEM_COMPONENTS",
+      "APISERVER",
+      "SCHEDULER",
+      "CONTROLLER_MANAGER"
+    ]
+  }
+
+  # クラスタのログ収集機能（Stackdriver Logging）を有効化
+  logging_config {
+    enable_components = [
+      "SYSTEM_COMPONENTS",
+      "WORKLOADS"
+    ]
+  }
+
+  # 監視とログ管理の導入
+  # Kubernetesアドオン構成
+  addons_config {
+    # Cloud Runの無効化（不要な場合、コスト削減のため）
+    cloudrun_config {
+      disabled = true
+    }
+
+    # HTTPロードバランシングを有効化（Ingressのサポート）
+    # Nginx Ingressなどの構成で外部トラフィックを処理可能に
+    http_load_balancing {
+      disabled = false
+    }
+
+    # Podやサービスのリソース使用率に基づいてスケールアップ/ダウンを可能にする
+    # リソース負荷に応じてPod数を動的に調整
+    horizontal_pod_autoscaling {
+      disabled = false
+    }
+  }
+
   # GKEクラスタをプライベートクラスタとして構成し、ノードへの外部IP割り当てを防ぐ
   private_cluster_config {
     enable_private_nodes    = true
@@ -27,8 +71,8 @@ resource "google_container_cluster" "primary" {
     # 自宅やネットワーク環境によっては、IPアドレスが変更される可能性があるため、
     # curl ifconfig.me で都度確認して設定する
     cidr_blocks {
-      cidr_block   = "125.103.161.163/32" # 必要に応じて範囲を制限
-      display_name = "allow-all" # 説明を適切に変更
+      cidr_block   = "152.165.116.138/32" # 必要に応じて範囲を制限
+      display_name = "home-ip-access"
     }
 
     # 複数のIPを許可する場合、以下のように設定する
